@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Game Title</title>
+
+    <!-- Load custom style sheet -->
+    <link rel="stylesheet" type="text/css" href="theme/love.css">
+  </head>
+  <body>
+
+        <script type='text/javascript'>
+        
+
+        </script>   
+      
+    <center>
+      <div>
+      
+        <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+        <canvas id="loadingCanvas" oncontextmenu="event.preventDefault()" width="800" height="600"></canvas>
+      </div>
+    </center>
+      <input id="clickButton" class="hidden" name="accept" type="submit" value="Send"/>
+
+    <script type='text/javascript'>
+     
+        // Permet le clique sur l'élément canvas 
+        var lastTarget, canvas, body;
+        window.onload = function() {
+
+
+          body   = document.querySelector('body'),
+          canvas = document.getElementById('canvas');
+          var activateCanvas = function (event) {
+            lastTarget = event.target;
+            window.focus();
+          }
+          var preventScroll = function (event) {
+            var keyCodes = [ 32, 37, 38, 39, 40 ];
+            if (lastTarget != canvas) {
+              return false;
+            }
+            if (keyCodes.includes(event.keyCode)) {
+              event.preventDefault();
+            }
+          }
+          var handleMouseDown = function (event) {
+            window.focus();
+        event.preventDefault();
+        event.stopPropagation();
+        event.target.style.cursor = 'default';
+      }
+      body.addEventListener('keydown', preventScroll, false);
+      body.addEventListener('click', activateCanvas, false);
+      canvas.addEventListener('mousedown', handleMouseDown, false);
+    }
+
+       
+        
+        
+      var loadingContext = document.getElementById('loadingCanvas').getContext('2d');
+    barLeft = 0 ;
+    barTotal = 0 ;
+      function drawLoadingText(text)
+        {
+            var canvas = loadingContext.canvas;
+            if (text !== null) {
+                
+            var barLeft = text.match(/\(([^/]+)/) ;
+                   if (barLeft == null) {
+                       barLeft = 0 ;
+                   };
+            var barTotal= text.match(/\/([^/)]+)/) ;
+                   if (barTotal == null) {
+                      barTotal = 0 ;
+                   };
+         
+            }
+            loadingContext.fillStyle = "rgb(0,0,0)";
+            loadingContext.font = '1em arial';
+            loadingContext.textAlign = 'center'
+            loadingContext.fillStyle = "rgb( 255,255,255 )";
+            //loadingContext.fillText(text, canvas.scrollWidth / 2, canvas.scrollHeight / 2);
+
+            var imgPerso = new Image();
+            var img = new Image();
+            imgPerso.src = "img/imgPerso.png";
+            img.src = "img/pub.png";
+            var ctx = loadingContext ;
+
+
+            var barWidth = 188 ;
+            var barProgress =  ( barLeft[1] * barWidth) / barTotal[1] ;
+           // console.log('BatTotal: '+ barTotal + ' barLeft: ' + barLeft );
+            var x = (canvas.scrollWidth - barWidth  )/2 ;
+            var y = (canvas.scrollHeight - 26 )/1.7 ;
+            var progressX = (canvas.scrollWidth - barWidth  )/2 ;
+            var progressY = (canvas.scrollHeight - 26 )/1.7 ;
+           
+            imgPerso.onload = function()
+          {
+            loadingContext.drawImage(imgPerso, (loadingContext.canvas.scrollWidth-img.width)/2 , 0);
+                loadingContext.drawImage(img, (loadingContext.canvas.scrollWidth-img.width)/2 , loadingContext.canvas.scrollHeight-img.height);
+                ctx.strokeStyle="white"; 
+                ctx.rect(x - 10 , y , barWidth , 26);
+                       ctx.strokeStyle="red"; 
+                ctx.fillRect( progressX - 10 ,  progressY , barProgress , 26);
+                ctx.stroke();
+          };  
+       
+      
+      };
+
+      window.addEventListener("keydown", function(e)
+      {
+        // space and arrow keys
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1)
+        {
+          e.preventDefault();
+        }
+      }, false);
+
+      var Module = {
+        arguments: ['./'],
+        printErr: console.error.bind(console),
+        canvas: (function()
+        {
+              var canvas = document.getElementById('canvas');
+
+              // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+              // application robust, you may want to override this behavior before shipping!
+              // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+              canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+              return canvas;
+        })(),
+          
+        setStatus: function(text)
+        {
+              if (text) {
+                               
+                drawLoadingText(text);
+            
+              } else if (Module.didSyncFS && Module.remainingDependencies === 0) {
+                Module.callMain(Module.arguments);
+                  document.getElementById('clickButton').click();
+                document.getElementById('loadingCanvas').style.display = 'none';
+                document.getElementById('canvas').style.display = 'block';
+              }
+        },
+        didSyncFS: false,
+        totalDependencies: 0,
+        remainingDependencies: 0,
+        monitorRunDependencies: function(left) 
+        {
+            this.remainingDependencies = left;
+            this.totalDependencies = Math.max(this.totalDependencies, left);
+            Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        
+        }
+      };
+      Module.setStatus('Downloading...');
+      window.onerror = function(event) {
+        // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
+        Module.setStatus('Exception thrown, see JavaScript console');
+        Module.setStatus = function(text) {
+          if (text) Module.printErr('[post-exception status] ' + text);
+        };
+      };
+    </script>
+    <script type="text/javascript" src="game.js"></script>
+    <script async type="text/javascript" src="love.js"></script>
+
+      
+
+  </body>
+</html>

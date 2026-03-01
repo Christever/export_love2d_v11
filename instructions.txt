@@ -1,0 +1,44 @@
+J’ai réalisé un script qui permet d’exporter votre jeu dans plusieurs formats depuis Windows:  PC Windows (32 bits, 64 bits), MAC OS X et WEB.
+
+Lien We Transfert : https://we.tl/RZLRDJ7hxs
+
+Télécharger l’archive et décompresser le tout dans un répertoire.
+
+
+
+Ensuite placer vos fichiers de jeu lua  dans le dossier « Source », puis doubler cliquer ensuite sur le script build.bat
+
+Vous trouverez ensuite dans leurs répertoires respectifs, BuildWeb, BuildDesktop (dossier versions 32 et 64 bit) et BuildMac vos jeux dans les bons formats.
+
+
+
+Pour gagner du temps, le script vous fournit aussi dans chacun des répertoires une version compressée des fichiers,
+
+qu’il vous reste plus qu’à mettre en ligne.
+
+Répertoire
+
+Exemple:
+Liste de fichiers de l’exportation au format web, le fichier surligné en bleu est un fichier zip qui contient les autres fichiers du dossier.
+
+Foire aux questions:
+
+Mon jeu ne fonctionne pas sur la web
+
+Le fichier conf.lua peut poser soucis sur certain projet, enlever le des sources avant de lancer de fichier bat.
+
+Puis-je personnaliser le fond d’écran du chargeur de démarrage ?
+
+Oui, pour cela modifier l’image de fond de couleur noir en gardant les dimensions.
+Elle se trouve ici: web\release-compatibility\img\imgPerso.png
+
+Splash Screen      Splash Screen Personnalisé
+
+Puis-je personnaliser la barre de logo ?
+
+Oui, pour cela modifier l’image des logos en gardant les dimensions.
+Elle se trouve ici: web\release-compatibility\img\pub.png
+
+
+
+Connexion
