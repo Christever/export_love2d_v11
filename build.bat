@@ -39,14 +39,6 @@ REM Version Windows
         cd ..
         cd ..
     
-REM Version Mac
-
- cd Source
-        ..\toolsmac\7za a -tzip ..\SuperGame.app\Contents\Resources\SuperGame.love
-        cd ..
-        toolsmac\7za a -tzip BuildMac\SuperGameMac.zip  SuperGame.app
-        
-
 
 REM Version Web
 
